@@ -13,8 +13,9 @@ public class InterruptDemo {
 	private static int i;
 
 	public static void main(String[] args) throws InterruptedException {
-		method4();
-		Thread.interrupted();
+		method2();
+//		boolean interrupted = Thread.interrupted();
+//		System.out.println(interrupted);
 	}
 
 	public static void method1() throws InterruptedException {
@@ -33,10 +34,8 @@ public class InterruptDemo {
 	public static void method2() throws InterruptedException {
 		Thread thread = new Thread(() -> {
 			while (true) {
-				Boolean ii = Thread.currentThread().isInterrupted();
-
-				if (ii) {
-					log.info("before:" + ii);
+				if (Thread.interrupted()) {
+					log.info("before:" + Thread.currentThread().isInterrupted());
 					Thread.interrupted();//对线程进行复位，中断标识为false
 					log.info("after:" + Thread.currentThread().isInterrupted());
 				}
@@ -46,7 +45,6 @@ public class InterruptDemo {
 		log.info("thread1:"+thread.isInterrupted());
 		TimeUnit.SECONDS.sleep(1);
 		thread.interrupt();//设置中断标识,中断标识为 true
-
 		log.info("thread2:"+thread.isInterrupted());
 	}
 
